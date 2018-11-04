@@ -1,9 +1,10 @@
 from random import randint
 import math
 from level import Level
+import pygame
 
 class Game:
-        def __init__(self, pygame):
+        def __init__(self):
                 self.state = 0
                 #State 0: Menu
                 #State 1: Game
@@ -36,8 +37,7 @@ class Game:
                 if self.state == 1:
                         if pressed[pg.K_UP]: 
                                 self.y -= 3
-                                self.moving = True
-                                print('UP' + str(pygame.time.get_ticks()))
+                                self.moving = True                                
                         if pressed[pg.K_DOWN]: 
                                 self.y += 3
                                 self.moving = True

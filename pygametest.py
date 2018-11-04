@@ -9,6 +9,11 @@ def draw_game():
                 screen.blit(myfont.render("MENU", 1, (255,255,255)), (400, 300))
         elif game.state == 1:
                 screen.fill((0,10,20))
+
+                for x in range(0,5):
+                        for y in range(0,5):
+                                screen.blit(game.level.get_tile_image(x,y), (100 + x*50 + y*50,300 + x*50 - y*50))
+
                 #pygame.draw.rect(screen, (10,123,50), pygame.Rect(game.x, game.y, 50, 50))
                 if game.moving:
                         sprite = game.sprites[3+int(pygame.time.get_ticks()/200)%3]
@@ -33,7 +38,7 @@ myfont = pygame.font.SysFont("monospace", 15)
 
 done = False
 
-game = Game(pygame)
+game = Game()
 
 clock = pygame.time.Clock()
 
