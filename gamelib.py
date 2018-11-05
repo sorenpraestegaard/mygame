@@ -21,7 +21,7 @@ class Game:
                         #.convert() converterer billedet til det format, der
                         #er valgt med pyamge.display.setmode(). Hurtigere tegning hver gang
                         self.sheet = pygame.image.load("spritesheet-demo.png").convert_alpha()
-                        
+
                 except pygame.error:
                         pass
 
@@ -33,7 +33,7 @@ class Game:
                         self.sprites.append(image)
 
                 #Calculate screen pos from x,y,z in 3D with matrix
-                self.m = np.array([[math.sqrt(3), 0, -math.sqrt(3)],[1, 2, 1],[math.sqrt(2), -math.sqrt(2), math.sqrt(2)]])    
+                self.m = np.array([[math.sqrt(3), 0, -math.sqrt(3)],[1, 2, 1],[math.sqrt(2), -math.sqrt(2), math.sqrt(2)]])
                 alpha = math.asin(math.tan(math.radians(30)))
                 print(math.degrees(alpha))
                 beta = math.radians(45)
@@ -55,27 +55,27 @@ class Game:
         def tick(self, pg, pressed):
                 self.moving = False
                 if self.state == 1:
-                        if pressed[pg.K_UP]: 
+                        if pressed[pg.K_UP]:
                                 self.y -= 3
-                                self.moving = True                                
-                        if pressed[pg.K_DOWN]: 
+                                self.moving = True
+                        if pressed[pg.K_DOWN]:
                                 self.y += 3
                                 self.moving = True
-                        if pressed[pg.K_LEFT]: 
+                        if pressed[pg.K_LEFT]:
                                 self.x -= 3
                                 self.moving = True
                                 self.left = True
-                        if pressed[pg.K_RIGHT]: 
+                        if pressed[pg.K_RIGHT]:
                                 self.x += 3
                                 self.moving = True
                                 self.left = False
                         if math.sqrt((self.target[0] - self.x)**2 + (self.target[1] - self.y)**2) < 40:
                                 self.points += 1
                                 self.target = [randint(0,800), randint(0,600)]
-        
+
         def start_game(self):
                 if self.state == 0:
-                        self.state = 1     
+                        self.state = 1
                         self.points = 0
                         self.x = 100
                         self.y = 100
