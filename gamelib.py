@@ -2,6 +2,7 @@ from random import randint
 import math
 from level import Level
 import pygame
+import numpy as np
 
 class Game:
         def __init__(self):
@@ -19,7 +20,7 @@ class Game:
                 try:
                         #.convert() converterer billedet til det format, der
                         #er valgt med pyamge.display.setmode(). Hurtigere tegning hver gang
-                        self.sheet = pygame.image.load("spritesheet-demo.png").convert()
+                        self.sheet = pygame.image.load("spritesheet-demo.png").convert_alpha()
                         
                 except pygame.error:
                         pass
@@ -27,10 +28,29 @@ class Game:
                 rects = ((0,0,22,25), (22,0,22,25), (44,0,21,25), (65,0,25,25), (90,0,17,25), (107,0,22,25))
                 self.sprites = []
                 for r in rects:
-                        image = pygame.Surface(pygame.Rect(r).size).convert()
+                        image = pygame.Surface(pygame.Rect(r).size, pygame.SRCALPHA, 32).convert_alpha()
                         image.blit(self.sheet, (0, 0), pygame.Rect(r))
                         self.sprites.append(image)
 
+                #Calculate screen pos from x,y,z in 3D with matrix
+                self.m = np.array([[math.sqrt(3), 0, -math.sqrt(3)],[1, 2, 1],[math.sqrt(2), -math.sqrt(2), math.sqrt(2)]])    
+                alpha = math.asin(math.tan(math.radians(30)))
+                print(math.degrees(alpha))
+                beta = math.radians(45)
+                m1 = np.array([[1, 0, 0],[0, math.cos(alpha), math.sin(alpha)],[0, -math.sin(alpha), math.cos(alpha)]])
+                m2 = np.array([[math.cos(beta), 0, -math.sin(beta)],[0, 1, 0],[math.sin(beta), 0, math.cos(beta)]])
+                m = np.multiply(m1,m2)
+                print(self.m)
+                print(m)
+
+
+        def to_screen_pos(pos):
+                scr_pos = np.multiply(self.m, pos)
+                return scr_pos
+
+        def to_world_pos(pos):
+                w_pos = np.multiply(self.m, pos)
+                return w_pos
 
         def tick(self, pg, pressed):
                 self.moving = False

@@ -10,8 +10,8 @@ def draw_game():
         elif game.state == 1:
                 screen.fill((0,10,20))
 
-                for x in range(0,5):
-                        for y in range(0,5):
+                for y in reversed(range(0,5)):
+                        for x in range(0,5):
                                 screen.blit(game.level.get_tile_image(x,y), (100 + x*50 + y*50,300 + x*50 - y*50))
 
                 #pygame.draw.rect(screen, (10,123,50), pygame.Rect(game.x, game.y, 50, 50))
