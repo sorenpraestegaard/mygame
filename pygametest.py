@@ -16,6 +16,7 @@ def draw_game():
                 screen.blit(game.level.get_tile_image(x,y), (100 + x*50 + y*50,300 + x*50 - y*50))
 
         #pygame.draw.rect(screen, (10,123,50), pygame.Rect(game.x, game.y, 50, 50))
+        
         if game.moving:
             sprite = game.sprites[3+int(pygame.time.get_ticks()/200)%3]
         else:
