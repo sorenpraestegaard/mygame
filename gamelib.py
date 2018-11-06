@@ -12,8 +12,6 @@ class Game:
                 #State 2: Pause
                 self.x = 100
                 self.y = 100
-                self.points = 0
-                self.target = [250, 250]
                 self.moving = False
                 self.left = False
                 self.level = Level()
@@ -33,24 +31,39 @@ class Game:
                         self.sprites.append(image)
 
                 #Calculate screen pos from x,y,z in 3D with matrix
-                self.m = np.array([[math.sqrt(3), 0, -math.sqrt(3)],[1, 2, 1],[math.sqrt(2), -math.sqrt(2), math.sqrt(2)]])
+                self.m = np.multiply(1/(math.sqrt(6)),np.array([
+                [math.sqrt(3), 0, -math.sqrt(3)],
+                [1, 2, 1],
+                [math.sqrt(2), -math.sqrt(2), math.sqrt(2)]]))
+
                 alpha = math.asin(math.tan(math.radians(30)))
                 print(math.degrees(alpha))
                 beta = math.radians(45)
-                m1 = np.array([[1, 0, 0],[0, math.cos(alpha), math.sin(alpha)],[0, -math.sin(alpha), math.cos(alpha)]])
-                m2 = np.array([[math.cos(beta), 0, -math.sin(beta)],[0, 1, 0],[math.sin(beta), 0, math.cos(beta)]])
+
+
+                m1 = np.array([
+                [1, 0, 0],
+                [0, math.cos(alpha), math.sin(alpha)],
+                [0, -math.sin(alpha), math.cos(alpha)]])
+
+                m2 = np.array([
+                [math.cos(beta), 0, -math.sin(beta)],
+                [0, 1, 0],
+                [math.sin(beta), 0, math.cos(beta)]])
+
                 m = np.multiply(m1,m2)
                 print(self.m)
                 print(m)
 
 
-        def to_screen_pos(pos):
-                scr_pos = np.multiply(self.m, pos)
-                return scr_pos
+        def to_screen_pos(self, pos):
+            scr_pos = np.multiply(self.m, pos)
+            return scr_pos
 
-        def to_world_pos(pos):
-                w_pos = np.multiply(self.m, pos)
-                return w_pos
+        def to_world_pos(self, pos):
+            p = np.array([pos[0], pos[1], 0])
+            w_pos = np.multiply(self.m, p)
+            return w_pos
 
         def tick(self, pg, pressed):
                 self.moving = False
@@ -69,17 +82,14 @@ class Game:
                                 self.x += 3
                                 self.moving = True
                                 self.left = False
-                        if math.sqrt((self.target[0] - self.x)**2 + (self.target[1] - self.y)**2) < 40:
-                                self.points += 1
-                                self.target = [randint(0,800), randint(0,600)]
+
 
         def start_game(self):
                 if self.state == 0:
                         self.state = 1
-                        self.points = 0
                         self.x = 100
                         self.y = 100
-                        self.target = [randint(0,800), randint(0,600)]
+
 
         def end_game(self):
                 if self.state > 0:
