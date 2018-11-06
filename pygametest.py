@@ -28,7 +28,7 @@ def draw_game():
             screen.blit(pygame.transform.rotate(sprite,-math.degrees(ang)), (game.x, game.y))
 
             m = game.to_world_pos(np.array(pygame.mouse.get_pos()))
-            print(m)
+            #print(m)
             screen.blit(myfont.render("Mouse World pos: {},{}".format(m[0][0],m[1][1]), 1, (255,255,255)), (20,10))
     elif game.state == 2:
         pygame.draw.rect(screen, (30,30,30), pygame.Rect(380, 280, 80, 50))
@@ -57,10 +57,10 @@ while not done:
             else:
                 game.start_game()
 
-        pressed = pygame.key.get_pressed()
+    pressed = pygame.key.get_pressed()
 
-        game.tick(pygame, pressed)
-        draw_game()
+    game.tick(pygame, pressed)
+    draw_game()
 
-        pygame.display.flip()
-        clock.tick(60)
+    pygame.display.flip()
+    clock.tick(60)
